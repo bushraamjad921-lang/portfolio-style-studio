@@ -73,11 +73,11 @@ function Index() {
     <Sheet open={editorOpen} onOpenChange={setEditorOpen}><SheetContent className="overflow-y-auto w-full sm:max-w-md">
       <SheetHeader><SheetTitle>Make it yours</SheetTitle><SheetDescription>Try changes in this preview. They won’t be saved after refreshing.</SheetDescription></SheetHeader>
       <form className="editor-fields" onSubmit={event => { event.preventDefault(); setProfile(draft); setEditorOpen(false); }}>
-        <label>Name<Input required value={draft.name} maxLength={45} onChange={event => setDraft({ ...draft, name: event.target.value })} /></label>
-        <label>Role<Input required value={draft.role} maxLength={70} onChange={event => setDraft({ ...draft, role: event.target.value })} /></label>
-        <label>Introduction<Textarea value={draft.intro} rows={4} maxLength={250} onChange={event => setDraft({ ...draft, intro: event.target.value })} /></label>
-        <label>About you<Textarea value={draft.bio} rows={6} maxLength={700} onChange={event => setDraft({ ...draft, bio: event.target.value })} /></label>
-        <label>Email<Input type="email" placeholder="Your contact email" value={draft.email} onChange={event => setDraft({ ...draft, email: event.target.value })} /></label>
+        <label htmlFor="profile-name">Name<Input id="profile-name" required value={draft.name} maxLength={45} onChange={event => setDraft({ ...draft, name: event.target.value })} /></label>
+        <label htmlFor="profile-role">Role<Input id="profile-role" required value={draft.role} maxLength={70} onChange={event => setDraft({ ...draft, role: event.target.value })} /></label>
+        <label htmlFor="profile-intro">Introduction<Textarea id="profile-intro" value={draft.intro} rows={4} maxLength={250} onChange={event => setDraft({ ...draft, intro: event.target.value })} /></label>
+        <label htmlFor="profile-bio">About you<Textarea id="profile-bio" value={draft.bio} rows={6} maxLength={700} onChange={event => setDraft({ ...draft, bio: event.target.value })} /></label>
+        <label htmlFor="profile-email">Email<Input id="profile-email" type="email" placeholder="Your contact email" value={draft.email} onChange={event => setDraft({ ...draft, email: event.target.value })} /></label>
         <Button type="submit"><Check />Apply to preview</Button><Button type="button" variant="outline" onClick={() => setDraft(initialProfile)}><RotateCcw />Reset fields</Button>
       </form>
     </SheetContent></Sheet>
