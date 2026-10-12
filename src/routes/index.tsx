@@ -28,6 +28,34 @@ function Index() {
   const [selectedProject, setSelectedProject] = useState<typeof sampleProjects[number] | null>(null);
   const [contactOpen, setContactOpen] = useState(false);
   const [clock, setClock] = useState('');
+  const [activeSection, setActiveSection] = useState('home');
+  useEffect(() => {
+    const sectionIds = ['home', 'work', 'info', 'contact'];
+    let frame = 0;
+    const updateSection = () => {
+      frame = 0;
+      const header = document.querySelector('.portfolio-header');
+      const marker = (header?.getBoundingClientRect().height ?? 82) + 48;
+      let current = 'home';
+      for (const id of sectionIds) {
+        const section = document.getElementById(id);
+        if (section && section.getBoundingClientRect().top <= marker) current = id;
+      }
+      if (window.scrollY > 0 && window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 4) current = 'contact';
+      setActiveSection(current);
+    };
+    const scheduleUpdate = () => {
+      if (!frame) frame = window.requestAnimationFrame(updateSection);
+    };
+    updateSection();
+    window.addEventListener('scroll', scheduleUpdate, { passive: true });
+    window.addEventListener('resize', scheduleUpdate);
+    return () => {
+      window.removeEventListener('scroll', scheduleUpdate);
+      window.removeEventListener('resize', scheduleUpdate);
+      window.cancelAnimationFrame(frame);
+    };
+  }, []);
   useEffect(() => {
     const update = () => setClock(new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZone: 'Asia/Karachi' }).format(new Date()));
     update();
@@ -41,13 +69,13 @@ function Index() {
   };
   const firstName = profile.name.trim().split(' ')[0] || 'Bushra';
   return <>
-    <header className="portfolio-header" id="home">
+    <header className="portfolio-header">
       <a href="#home" className="brand" aria-label={`${profile.name} home`}><span className="diamond" />{firstName}.</a>
-      <nav className="header-nav" aria-label="Main navigation"><a href="#home">Home</a><a href="#info">Info</a><a href="#work">Work</a><a href="#contact">Contact</a></nav>
+      <nav className="header-nav" aria-label="Main navigation">{['home', 'info', 'work', 'contact'].map(section => <Button key={section} asChild variant="ghost" className="section-nav-link"><a href={`#${section}`} aria-current={activeSection === section ? 'location' : undefined}>{section.charAt(0).toUpperCase() + section.slice(1)}</a></Button>)}</nav>
       <div className="header-actions"><span className="header-time">{clock}</span><Button className="call-button" onClick={contact}>Book a Call <ArrowUpRight /></Button></div>
     </header>
     <main className="portfolio-main">
-      <section className="intro" aria-label="Introduction">
+      <section className="intro" id="home" aria-label="Introduction">
         <div className="disciplines"><span>UI/UX Design</span><span>/</span><span>Web Design</span><span>/</span><span>Product Design</span></div>
         <h1><span className="hello-line"><span className="diamond" />Hello!</span><span className="intro-name">I’m {firstName}.</span></h1>
         <p className="intro-copy">{profile.intro}</p>
