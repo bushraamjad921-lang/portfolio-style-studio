@@ -8,3 +8,6 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Keep portfolio copy and sample project data in a browser-safe data module, so presentation and content can evolve independently.
+- Portfolio customization is an in-memory preview only; do not persist or publish preview edits automatically, so visitors cannot alter the owner's portfolio.
