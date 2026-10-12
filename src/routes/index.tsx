@@ -81,7 +81,7 @@ function Index() {
         <p className="intro-copy">{profile.intro}</p>
       </section>
       <section className="work-section" id="work">
-        <div className="section-heading"><h2>Selected work</h2><span className="section-count">(05)</span></div>
+        <div className="section-heading"><h2>Selected work</h2><span className="section-count">({String(sampleProjects.length).padStart(2, '0')})</span></div>
         <div>{sampleProjects.map((project, index) => <Button key={project.name} variant="ghost" className="project-row" onClick={() => setSelectedProject(project)} aria-label={`View ${project.name} sample project`}>
           <span className="project-number">0{index + 1}</span><span className="project-name">{project.name}</span><span className="project-details"><span>{project.category}</span><span>{project.description}</span></span><span className="project-year">’26</span><ArrowUpRight className="project-arrow" />
         </Button>)}</div>
