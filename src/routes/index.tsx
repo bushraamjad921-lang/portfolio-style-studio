@@ -27,7 +27,6 @@ function Index() {
   const [editorOpen, setEditorOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<typeof sampleProjects[number] | null>(null);
   const [contactOpen, setContactOpen] = useState(false);
-  const [clock, setClock] = useState('');
   const [activeSection, setActiveSection] = useState('home');
   useEffect(() => {
     const sectionIds = ['home', 'work', 'info', 'contact'];
@@ -56,12 +55,6 @@ function Index() {
       window.cancelAnimationFrame(frame);
     };
   }, []);
-  useEffect(() => {
-    const update = () => setClock(new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZone: 'Asia/Karachi' }).format(new Date()));
-    update();
-    const timer = window.setInterval(update, 60000);
-    return () => window.clearInterval(timer);
-  }, []);
   const openEditor = () => { setDraft(profile); setEditorOpen(true); };
   const contact = () => {
     if (profile.email) { window.location.href = `mailto:${profile.email}`; return; }
@@ -72,7 +65,7 @@ function Index() {
     <header className="portfolio-header">
       <a href="#home" className="brand" aria-label={`${profile.name} home`}><span className="diamond" />{firstName}.</a>
       <nav className="header-nav" aria-label="Main navigation">{['home', 'info', 'work', 'contact'].map(section => <Button key={section} asChild variant="ghost" className="section-nav-link"><a href={`#${section}`} aria-current={activeSection === section ? 'location' : undefined}>{section.charAt(0).toUpperCase() + section.slice(1)}</a></Button>)}</nav>
-      <div className="header-actions"><span className="header-time">{clock}</span><Button className="call-button" onClick={contact}>Book a Call <ArrowUpRight /></Button></div>
+      <div className="header-actions"><Button className="call-button" onClick={contact}>Book a Call <ArrowUpRight /></Button></div>
     </header>
     <main className="portfolio-main">
       <section className="intro" id="home" aria-label="Introduction">
